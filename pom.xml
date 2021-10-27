@@ -10,7 +10,7 @@
 	</parent>
 	<packaging>war</packaging>
 	<groupId>com.stacksimplify.restservices</groupId>
-	<artifactId>usermgmt-webapp</artifactId>
+	<artifactId>kube-usermgmt-webapp</artifactId>
 	<version>1.0.0</version>	
 	<name>gokul-usermgmt-webapp</name>
 	<description>Spring Boot Web Application</description>

@@ -20,7 +20,7 @@ spec:
           command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z mysql 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL DB Server has started";']      
       containers:
         - name: usermgmt-webapp
-          image: stacksimplify/kube-usermgmt-webapp:1.0.0-MySQLDB
+          image: flyahead/gokul-usermgmt-webapp:1.0.0
           imagePullPolicy: Always
           ports: 
             - containerPort: 8080           
@@ -36,5 +36,5 @@ spec:
             - name: DB_PASSWORD
               valueFrom: 
                 secretKeyRef:
-                  name: mysql-db-password
+                  name: api-key
                   key: db-password       

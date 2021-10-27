@@ -5,7 +5,7 @@ metadata:
   labels: 
     app: usermgmt-webapp
 spec: 
-  type: LoadBalancer
+  type: LoadBalancer #can use NodePort / LoadBalancer / Ingress for external access
   selector: 
     app: usermgmt-webapp
   ports: 

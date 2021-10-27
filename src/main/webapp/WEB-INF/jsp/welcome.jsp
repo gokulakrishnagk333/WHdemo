@@ -4,8 +4,8 @@
 </div>
 
 <div class="jumbotron">
-  <h1 align="center">Kubernetes on Cloud</h1>
-  <p align="center">Masterclass Series on AWS, Azure and GKE</p>
+  <h1 align="center">Kubernetes on Cloud by Gokulakrishna</h1>
+  <p align="center"> Howdy!! </p>
 </div>
 
 <div class="container">

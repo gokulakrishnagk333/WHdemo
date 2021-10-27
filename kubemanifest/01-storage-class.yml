@@ -10,7 +10,12 @@ parameters:
   storageaccounttype: Premium_LRS # or we can use Standard_LRS
   kind: Managed # Default is shared, recommended is Managed
 
-# Additional Reference
+
+#########################################################################
+# If you want to up to date in technology follow me on www.gokulakrishna.me
+
+######################3############################################################
+# Additional Reference to remember configuration
 # https://kubernetes.io/docs/concepts/storage/storage-classes/#azure-disk
 
 ##############################################################################

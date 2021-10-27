@@ -11,8 +11,8 @@
 	<packaging>war</packaging>
 	<groupId>com.stacksimplify.restservices</groupId>
 	<artifactId>usermgmt-webapp</artifactId>
-	<version>1.0.0-MySQLDB</version>	
-	<name>kube-usermgmt-webapp</name>
+	<version>1.0.0</version>	
+	<name>gokul-usermgmt-webapp</name>
 	<description>Spring Boot Web Application</description>
 
 	<properties>
@@ -120,7 +120,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<repository>stacksimplify/${project.name}</repository>
+							<repository>flyahead/${project.name}</repository>
 							<tag>${project.version}</tag>
 							<skipDockerInfo>true</skipDockerInfo>
 						</configuration>

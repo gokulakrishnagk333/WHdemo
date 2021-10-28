@@ -1,5 +1,5 @@
 stages:
-  #- dependency
+  - dependency
   - build
 #  - sonarscanner
   - trivyscanner
@@ -10,17 +10,17 @@ variables:
   GIT_CLEAN_FLAGS: none # disable git clean
   GIT_STRATEGY: clone
 
-# Dependencies:
-#   stage: dependency
-#   script:
-#     #- sudo chmod -R 777 /home/gitlab-runner/.config/
-#     #- sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/.config
-#     - sudo chmod -R 777 /home/gitlab-runner/builds
-#     - sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/builds
-#   tags:
-#     - devops
-#   only:
-#     - main
+Dependencies:
+  stage: dependency
+  script:
+    #- sudo chmod -R 777 /home/gitlab-runner/.config/
+    #- sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/.config
+    - sudo chmod -R 777 /home/gitlab-runner/builds
+    - sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/builds
+  tags:
+    - devops
+  only:
+    - main
 
 Maven Build:
   stage: build

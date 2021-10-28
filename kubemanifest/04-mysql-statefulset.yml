@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: mysql
 spec: 
@@ -8,7 +8,7 @@ spec:
     matchLabels:
       app: mysql
   strategy:
-    type: Recreate 
+    type: RollingUpdate 
   template: 
     metadata: 
       labels: 
@@ -30,7 +30,7 @@ spec:
             - name: mysql-persistent-storage
               mountPath: /var/lib/mysql    
             - name: usermanagement-dbcreation-script
-              mountPath: /docker-entrypoint-initdb.d #https://hub.docker.com/_/mysql Refer Initializing a fresh instance                                            
+              mountPath: /docker-entrypoint-initdb.d # Refer Initializing a fresh instance                                            
       volumes: 
         - name: mysql-persistent-storage
           persistentVolumeClaim:

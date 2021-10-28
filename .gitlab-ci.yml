@@ -1,5 +1,6 @@
 stages:
   - dependency
+  - test
   - build
 #  - sonarscanner
   - trivyscanner
@@ -16,6 +17,23 @@ Dependencies:
     #- sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/.config
     - sudo chmod -R 777 /home/gitlab-runner/builds
     - sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/builds
+  tags:
+    - devops
+  only:
+    - main
+
+test:
+  stage: test
+  script:
+    #- sudo chmod -R 777 /home/gitlab-runner/.config/
+    #- sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/.config
+    #- sudo chmod -R 777 /home/gitlab-runner/builds
+    #- sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/builds
+    - sudo docker -version
+  tags:
+    - devops
+  only:
+    - main
 
 Maven Build:
   stage: build
@@ -45,6 +63,10 @@ Image Push to Docker Hub:
   script:
     # -docker login 
     - sudo docker push -t flyahead/gokul-usermgmt-webapp:1.2.0
+  tags:
+    - devops
+  only:
+    - main  
 
 AKS Deployment:
   stage: deployment

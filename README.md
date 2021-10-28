@@ -1,6 +1,7 @@
 # Kubernetes
 
 ## Step-01: Introduction
+- Created a kubernetes deployment, svc, hpa, pdb service account in kubernetes cluster
 - Kubernetes Secrets let you store and manage sensitive information, such as passwords, OAuth tokens, and ssh keys. 
 - Storing confidential information in a Secret is safer and more flexible than putting it directly in a Pod definition or in a container image. 
 

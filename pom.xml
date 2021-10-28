@@ -92,8 +92,12 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
-			    	
+#snorcube
+<properties>
+  <sonar.projectKey>gokulakrishnag_gokul_AXzFOPXyAHOQEFz04PCh</sonar.projectKey>
+  <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
+</properties>
+#sonarcube			    	
 	</dependencies>
 
            <build>

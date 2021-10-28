@@ -8,7 +8,7 @@ stages:
   - zapscanner
 variables:
   GIT_CLEAN_FLAGS: none # disable git clean
-  GIT_STRATEGY: clone
+  #GIT_STRATEGY: clone
 
 Dependencies:
   stage: dependency

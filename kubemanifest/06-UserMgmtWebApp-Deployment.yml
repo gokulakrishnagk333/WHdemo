@@ -25,7 +25,7 @@ spec:
           command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z mysql 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL DB Server has started";']      
       containers:
         - name: usermgmt-webapp
-          image: flyahead/gokul-usermgmt-webapp:1.0.0
+          image: flyahead/gokul-usermgmt-webapp:1.2.0
           imagePullPolicy: Always
           ports: 
             - containerPort: 8080           

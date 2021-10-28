@@ -2,6 +2,7 @@ stages:
   - build
 #  - sonarscanner
   - trivyscanner
+  - pushtocr
   - deployment
   - zapscanner
 
@@ -26,6 +27,12 @@ Trivy Scanner:
     - devops
   only:
     - main
+
+Image Push to Docker Hub:
+  stage: pushtocr
+  script:
+    # -docker login 
+    - docker push -t flyahead/gokul-usermgmt-webapp:1.2.0
 
 AKS Deployment:
   stage: deployment

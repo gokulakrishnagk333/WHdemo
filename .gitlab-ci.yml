@@ -1,13 +1,53 @@
 stages:
-#  - build
-  - AKS Deployment
+  - build
+#  - sonarscanner
+  - trivyscanner
+  - deployment
+  - zapscanner
+
+Maven Build:
+  stage: build
+  script:
+    - mvn clean install
+  tags:
+    - devops
+  only:
+    - main
+
+# Sonar Scanner:
+#   stage: sonarscanner
+#     - 
+
+Trivy Scanner:
+  stage: trivyscanner
+  script:
+    - trivy --exit-code 1 --no-progress --ignore-unfixed --severity HIGH,CRITICAL flyahead/gokul-usermgmt-webapp:1.2.0
+  tags:
+    - devops
+  only:
+    - main
 
 AKS Deployment:
-  stage: AKS Deployment
-      - az login --service-principal -u $AZURE_CLIENT_ID -p $K8S_SECRET_AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
-      - az account set --subscription $AZURE_SUBSCRIPTION_ID
-      - az aks get-credentials --resource-group az --name az
-      
+  stage: deployment
+  script:
+    - az login --service-principal -u $AZURE_CLIENT_ID -p $K8S_SECRET_AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+    - az account set --subscription $AZURE_SUBSCRIPTION_ID
+    - az aks get-credentials --resource-group az --name az
+  tags:
+    - devops
+  only:
+    - main
+
+Zap Scanner:
+  stage: zapscanner
+  script:
+    - docker run -v $(pwd)/report:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -I -t https://www.gokulakrishna.me -r testreport.html
+  tags:
+    - devops
+  only:
+    - main
+
+
 
 # stages:
 #   - Test and Lint

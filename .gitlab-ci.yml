@@ -12,8 +12,8 @@ variables:
 Dependencies:
   stage: dependency
   script:
-    - sudo chmod -R 777 /home/gitlab-runner/.config/
-    - sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/.config
+    #- sudo chmod -R 777 /home/gitlab-runner/.config/
+    #- sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/.config
     - sudo chmod -R 777 /home/gitlab-runner/builds
     - sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/builds
 

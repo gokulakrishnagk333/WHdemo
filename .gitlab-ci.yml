@@ -29,6 +29,7 @@ Maven Build:
   stage: build
   script:
     - sudo mvn clean install
+    - sudo chmod -R 777 target
   tags:
     - devops
   only:

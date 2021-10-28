@@ -54,7 +54,7 @@ Image Push to Docker Hub:
   stage: pushtocr
   script:
     # -docker login 
-    - sudo docker push -t flyahead/gokul-usermgmt-webapp:1.2.0
+    - sudo docker push flyahead/gokul-usermgmt-webapp:1.2.0
   tags:
     - devops
   only:

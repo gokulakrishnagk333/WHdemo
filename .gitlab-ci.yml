@@ -1,4 +1,5 @@
 stages:
+  - dependency
   - build
 #  - sonarscanner
   - trivyscanner
@@ -7,6 +8,13 @@ stages:
   - zapscanner
 variables:
   GIT_CLEAN_FLAGS: none # disable git clean
+
+Dependencies:
+  stage: dependency
+    - sudo chmod -R 777 /home/gitlab-runner/.config/
+    - sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/.config
+    - sudo chmod -R 777 /home/gitlab-runner/builds
+    - sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/builds
 
 Maven Build:
   stage: build

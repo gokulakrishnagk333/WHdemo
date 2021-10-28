@@ -9,7 +9,7 @@ stages:
 Maven Build:
   stage: build
   script:
-    - mvn clean install
+    - sudo mvn clean install
   tags:
     - devops
   only:
@@ -22,7 +22,7 @@ Maven Build:
 Trivy Scanner:
   stage: trivyscanner
   script:
-    - trivy --exit-code 1 --no-progress --ignore-unfixed --severity HIGH,CRITICAL flyahead/gokul-usermgmt-webapp:1.2.0
+    - sudo trivy --exit-code 1 --no-progress --ignore-unfixed --severity HIGH,CRITICAL flyahead/gokul-usermgmt-webapp:1.2.0
   tags:
     - devops
   only:
@@ -32,7 +32,7 @@ Image Push to Docker Hub:
   stage: pushtocr
   script:
     # -docker login 
-    - docker push -t flyahead/gokul-usermgmt-webapp:1.2.0
+    - sudo docker push -t flyahead/gokul-usermgmt-webapp:1.2.0
 
 AKS Deployment:
   stage: deployment
@@ -41,7 +41,7 @@ AKS Deployment:
     # - az account set --subscription $AZURE_SUBSCRIPTION_ID
     # - az aks get-credentials --resource-group az --name az
     # - cd kubemanifest
-    - kubectl apply -f kubemanifest/
+    - sudo kubectl apply -f kubemanifest/
   tags:
     - devops
   only:
@@ -50,7 +50,7 @@ AKS Deployment:
 Zap Scanner:
   stage: zapscanner
   script:
-    - docker run -v $(pwd)/report:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -I -t http://20.69.82.2/ -r testreport.html
+    - sudo docker run -v $(pwd)/report:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -I -t http://20.69.82.2/ -r testreport.html
   tags:
     - devops
   only:

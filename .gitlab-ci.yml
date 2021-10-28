@@ -5,6 +5,8 @@ stages:
   - pushtocr
   - deployment
   - zapscanner
+variables:
+  GIT_CLEAN_FLAGS: none # disable git clean
 
 Maven Build:
   stage: build

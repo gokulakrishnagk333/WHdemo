@@ -24,6 +24,7 @@ Maven Build:
 Trivy Scanner:
   stage: trivyscanner
   script:
+    - sudo docker images
     - sudo trivy --exit-code 1 --no-progress --ignore-unfixed --severity HIGH,CRITICAL flyahead/gokul-usermgmt-webapp:1.2.0
   tags:
     - devops

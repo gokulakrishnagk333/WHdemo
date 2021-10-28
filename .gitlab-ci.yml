@@ -37,9 +37,11 @@ Image Push to Docker Hub:
 AKS Deployment:
   stage: deployment
   script:
-    - az login --service-principal -u $AZURE_CLIENT_ID -p $K8S_SECRET_AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
-    - az account set --subscription $AZURE_SUBSCRIPTION_ID
-    - az aks get-credentials --resource-group az --name az
+    # - az login --service-principal -u $AZURE_CLIENT_ID -p $K8S_SECRET_AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+    # - az account set --subscription $AZURE_SUBSCRIPTION_ID
+    # - az aks get-credentials --resource-group az --name az
+    # - cd kubemanifest
+    - kubectl apply -f kubemanifest/
   tags:
     - devops
   only:
@@ -48,7 +50,7 @@ AKS Deployment:
 Zap Scanner:
   stage: zapscanner
   script:
-    - docker run -v $(pwd)/report:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -I -t https://www.gokulakrishna.me -r testreport.html
+    - docker run -v $(pwd)/report:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -I -t http://20.69.82.2/ -r testreport.html
   tags:
     - devops
   only:

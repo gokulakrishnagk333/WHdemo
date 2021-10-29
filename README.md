@@ -7,7 +7,7 @@
 5. API_KEY env variable is not used yet in app, once the Mysql pod created it get the mysql db password from secret
 ```
 
-## Acceptance criteria**
+## Acceptance criteria
 ```
 - Provided entire code in full with kubernetes manifests, pipelines, scripts.
 - Deployed in Azure Public cloud.

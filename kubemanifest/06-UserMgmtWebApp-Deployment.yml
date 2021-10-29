@@ -6,12 +6,12 @@ metadata:
   labels:
     app: usermgmt-webapp
 spec:
-  replicas: 2
+  replicas: 3
   strategy:
-  type: RollingUpdate
-  rollingUpdate:
-     maxUnavailable: 1
-     maxSurge: 1
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2        # how many pods we can add at a time
+      maxUnavailable: 1  # maxUnavailable define how many pods can be unavailable # during the rolling update           
   selector:
     matchLabels:
       app: usermgmt-webapp

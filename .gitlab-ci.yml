@@ -14,6 +14,11 @@ Terraform Init:
   stage: Init
   script:
     - terraform init
+  tags:
+    - devops
+  only:
+    - terraform  
+
   # rules:
   #   - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(main|production)$/ || $CI_COMMIT_BRANCH =~ /^(main|production)$/'
 
@@ -21,6 +26,10 @@ Validate Terraform:
   stage: Validate
   script:
     - terraform validate
+  tags:
+    - devops
+  only:
+    - terraform 
   # rules:
   #   - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(main|production)$/ || $CI_COMMIT_BRANCH =~ /^(main|production)$/'
 
@@ -28,6 +37,10 @@ Terraofrom Plan:
   stage: Plan
   script:
     - terraform plan
+  tags:
+    - devops
+  only:
+    - terraform 
   #   - echo "Run Terraform Plan for Production"
   # rules:
   #   - if: '$CI_COMMIT_BRANCH == "production"'
@@ -36,15 +49,23 @@ Terraofrom Plan:
 #   stage: Apply
 #   script:
 #     - terraform apply
-#   #   - echo "Run Terraform Apply for Production"
-#   # rules:
-#   #   - if: '$CI_COMMIT_BRANCH == "production"'
-#   #     when: manual
+#   tags:
+#     - devops
+#   only:
+#     - terraform 
+  #   - echo "Run Terraform Apply for Production"
+  # rules:
+  #   - if: '$CI_COMMIT_BRANCH == "production"'
+  #     when: manual
 
 # Terraform Destroy:
 #   stage: Destroy
 #   script:
 #     - terraform destroy
+#   tags:
+#     - devops
+#   only:
+#     - terraform 
 #   #   - echo "Run Terraform Destroy for Production"
 #   # rules:
 #   #   - if: '$CI_COMMIT_BRANCH == "production"'

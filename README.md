@@ -5,50 +5,71 @@
 
 ## Repo created in github / gitlab and solved below Option 1 problem
 ```
-1. Created a kubernetes Java Application with Mysql DB deployment, svc, hpa, pdb service account in AKS kubernetes cluster
-2. Mysql Statefulset deployment needs a secret with name API_KEY
-3. Mounted this secret.
-4. API_KEY is refered as mysqldbpassword in Mysql environment variables within the container when container starts inside a pod
-5. API_KEY env variable is not used yet in app, once the Mysql pod created it get the mysql db password from secret
+1. Create a kubernetes deployment, svc, hpa, pdb service account in kubernetes cluster. can be PaaS/Minikube
+ - Created a kubernetes Java Application with Mysql DB deployment, svc, hpa, pdb service account in AKS kubernetes cluster
+2. Deployment needs a secret with name API_KEY
+ - Mysql Statefulset deployment needs a secret with name API-KEY
+3. Mount this secret in deployment
+ - Mounted this secret.
+4. API_KEY should be a environment variables within the container when container starts inside a pod
+ - API_KEY is refered as mysqldbpassword in Mysql environment variables within the container when container starts inside a pod
+5. API_KEY env variable is not used yet in app, but we want to see the approach
+ - API_KEY env variable is not used yet in app, once the Mysql pod created it get the mysql db password from secret
 ```
 
 ## Acceptance criteria
 ```
-- Provided entire code in full with kubernetes manifests, pipelines, scripts.
-- Deployed in Azure Public cloud.
-- Also provided rancher access for 1 one day to check deployment and also multi-cloud k8's cluster management.
-- I hope entire code is clean and readable
-- Documented all steps that are automated and not automated in the README.md
-- Created dedicated service account for deployment
-- Created NodePort Type of service for application
-- Allocated minimum 2 pods always up and running
-- Allocated only 1 pod unavailable during Rolling Update of Deployment
+1. You must provide your code in full with kubernetes manifests or pipelines or scripts
+  - Provided entire code in full with kubernetes manifests, pipelines, scripts.
+2. You must use either public cloud(AWS, GCP, Azure) or Minikube to run the above manifests file
+  - Deployed in Azure Public cloud.
+3. You do not need to provide access to the cluster in public cloud, only the code  
+  - Also provided rancher access for 1 one day to check deployment and also multi-cloud k8's cluster management.
+4. Your code is clean and readable
+  - I hope entire code is clean and readable
+5. You must document any steps that are not automated in the README.md
+  - Documented all steps that are automated and not automated in the README.md
+6. You must have dedicated service account for deployment
+  - Created dedicated service account for deployment
+7. You must have NodePort Type of service for application
+  - Created NodePort Type of service for application
+8. You must have Minimum 2 pods always up and running
+  - Allocated minimum 2 pods always up and running
+9. You must have only 1 pod unavailable during Rolling Update of Deployment
+  - Allocated only 1 pod unavailable during Rolling Update of Deployment
 ```
 
 ## Assumptions
 ```
 1. Can use any open-source tools/language to solve problem
-   - Used Gitlab for store code and pipeline
-   - Used Trivy for container scanning
-   - Custom gitlab-runner and below tools installed in centos which running on GCP
-      - Git
-      - Java, Maven installed
-      - Azure CLI installed for login to azure 
-      - Trivy installed
-      - Docker installed
-      - Kubectl service installed 
+  - Used Gitlab for store code and pipeline
+  - Used Trivy for container scanning
+  - Custom gitlab-runner and below tools installed in centos which running on GCP
+    - Git
+    - Java, Maven installed
+    - Azure CLI installed for login to azure 
+    - Trivy installed
+    - Docker installed
+    - Kubectl service installed 
 2. Create extra code if needed like infra(terraform, scripts) etc in same repo
-   - Created AKS cluster using terraform script add in same repo
+  - Created AKS cluster using terraform script add in same repo
 3. Choose simple applications from internet e.g. nginx, httpd
-   - Used Java User Management Apllication with Mysql DB
+  - Used Java User Management Apllication with Mysql DB
 ```
 
 ## Bonus
 ```
 1. Deployment container is scanned before getting deployed. If severity is high, pipeline should fail
+  - Yes the Trivy scanner included and added condition to fail the pipeline
 2. Container in Pod, should not be running as root
+  - Yes not a root user
 3. Provide any code that you required to accomplish this task
+  - Provided Terraform Azure AKS Cluster provisioning code
+  - Provided Java and Mysql Based Microservices App Code
+  - Provided Gitlab Pipeline Code
+  - Provided App Deployment Kubenetes manifests
 4. You must document any steps that are not automated in the README.md
+  - Documented all steps
 ```
 # Pre-requisites
 ```

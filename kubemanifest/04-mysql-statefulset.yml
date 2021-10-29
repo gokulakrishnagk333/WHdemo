@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  namesapce: production
   name: mysql
 spec: 
+  serviceName: mysql
   replicas: 1
   selector:
     matchLabels:

@@ -1,14 +1,13 @@
 stages:
   - dependency
   - build
-#  - sonarscanner
   - trivyscanner
   - pushtocr
   - deployment
   - zapscanner
 variables:
-  #GIT_CLEAN_FLAGS: none # disable git clean
   GIT_STRATEGY: clone
+
 before_script:
   - sudo chmod -R 777 /home/gitlab-runner/builds
   - sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/builds
@@ -16,8 +15,6 @@ before_script:
 Dependencies:
   stage: dependency
   script:
-    #- sudo chmod -R 777 /home/gitlab-runner/.config/
-    #- sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/.config
     - sudo chmod -R 777 /home/gitlab-runner/builds
     - sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/builds
   tags:
@@ -35,10 +32,6 @@ Maven Build:
   only:
     - main
 
-# Sonar Scanner:
-#   stage: sonarscanner
-#     - 
-
 Trivy Scanner:
   stage: trivyscanner
   script:
@@ -53,7 +46,6 @@ Trivy Scanner:
 Image Push to Docker Hub:
   stage: pushtocr
   script:
-    # -docker login 
     - sudo docker push flyahead/gokul-usermgmt-webapp:1.2.0
   tags:
     - devops
@@ -84,80 +76,3 @@ Zap Scanner:
     - devops
   only:
     - main
-
-
-
-# stages:
-#   - Test and Lint
-#   - Build and Push
-#   - Staging Plan
-#   - Staging Apply
-#   - Production Plan
-#   - Production Apply
-#   - Destroy
-
-# Test and Lint:
-#   stage: Test and Lint
-#   script:
-#     - echo "Test and Lint"
-#   rules:
-#     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(main|production)$/ || $CI_COMMIT_BRANCH =~ /^(main|production)$/'
-
-# Validate Terraform:
-#   stage: Test and Lint
-#   script:
-#     - echo "Validate Terraform"
-#   rules:
-#     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(main|production)$/ || $CI_COMMIT_BRANCH =~ /^(main|production)$/'
-
-# Build and Push:
-#   stage: Build and Push
-#   script:
-#     - echo "Build and Push docker image"
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH =~ /^(main|production)$/'
-
-# Staging Plan:
-#   stage: Staging Plan
-#   script:
-#     - echo "Run Terraform Plan for Staging"
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH =~ /^(main|production)$/'
-
-# Staging Apply:
-#   stage: Staging Apply
-#   script:
-#     - echo "Run Terraform Apply for Staging"
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH =~ /^(main|production)$/'
-
-# Production Plan:
-#   stage: Production Plan
-#   script:
-#     - echo "Run Terraform Plan for Production"
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH == "production"'
-
-# Production Apply:
-#   stage: Production Apply
-#   script:
-#     - echo "Run Terraform Apply for Production"
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH == "production"'
-#       when: manual
-
-# Staging Destroy:
-#   stage: Destroy
-#   script:
-#     - echo "Run Terraform Destroy for Staging"
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH =~ /^(main|production)$/'
-#       when: manual
-
-# Production Destroy:
-#   stage: Destroy
-#   script:
-#     - echo "Run Terraform Destroy for Production"
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH == "production"'
-#       when: manual

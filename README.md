@@ -62,7 +62,7 @@ data "azurerm_kubernetes_service_versions" "current" {
 ```
 ## Step-05: Create Azure Log Analytics Workspace Terraform Resource
 - The Azure Monitor for Containers (also known as Container Insights) feature provides performance monitoring for workloads running in the Azure Kubernetes cluster.
-- We need to create and reference its id in AKS Cluster when enabling the monitoring feature.
+- Need to create and reference its id in AKS Cluster when enabling the monitoring feature.
 - Create a file **05-log-analytics-workspace.tf**
 ```
 # Create Log Analytics Workspace
@@ -290,9 +290,9 @@ kubectl get nodes
 - Azure AD Group
   - aks-prod-cluster-administrators
 
-
 ## Step-12: Create a User in Azure AD and Associate User to AKS Admin Group in Azure AD
-- Create a user in Azure Active Directory
+
+- Create a user in Azure Active Directory # "Flyahead Domain" is my test domain already added as custom primary domain in my azure accoiunt.
   - User Name: gokul@flyahead.org
   - Name: gokul
   - First Name: gokulakrishna
@@ -306,7 +306,6 @@ kubectl get nodes
   - Old Password: @AKSadmin11
   - New Password: @AKSadmin22
   - Confirm Password: @AKSadmin22
-
 
 ## Step-13: Access Terraform created AKS Cluster 
 ```

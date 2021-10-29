@@ -43,7 +43,7 @@ Trivy Scanner:
   stage: trivyscanner
   script:
     - sudo docker images
-    # - sudo trivy --exit-code 1 --no-progress --ignore-unfixed --severity HIGH,CRITICAL flyahead/gokul-usermgmt-webapp:1.2.0
+    # - sudo trivy --exit-code 1 --no-progress --ignore-unfixed --severity HIGH,CRITICAL flyahead/gokul-usermgmt-webapp:1.2.0 # if the image has high or critical vulnerability pipeline will be exited, so if you should enable it.
     - sudo trivy --no-progress --ignore-unfixed --severity HIGH,CRITICAL flyahead/gokul-usermgmt-webapp:1.2.0
   tags:
     - devops
@@ -76,7 +76,8 @@ AKS Deployment:
 Zap Scanner:
   stage: zapscanner
   script:
-    - sudo docker run -v $(pwd)/report:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -I -t http://20.69.82.2/ -r testreport.html
+    - ip=`kubectl get svc | grep LoadBalancer | awk '{print $4}'`
+    - sudo docker run -v $(pwd)/report:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -I -t $ip -r testreport.html
   tags:
     - devops
   only:

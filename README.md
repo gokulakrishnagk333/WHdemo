@@ -13,9 +13,9 @@
 - Deployed in Azure Public cloud.
 - Also provided rancher access for 1 one day to check deployment and also multi-cloud k8's cluster management.
 - I hope entire code is clean and readable
-- I have documented all steps that are automated and not automated in the README.md
+- Documented all steps that are automated and not automated in the README.md
 - Created dedicated service account for deployment
-- I have NodePort Type of service for application
+- Created NodePort Type of service for application
 - Allocated minimum 2 pods always up and running
 - Allocated only 1 pod unavailable during Rolling Update of Deployment
 ```
@@ -25,9 +25,10 @@
 1. Can use any open-source tools/language to solve problem
    - Used Gitlab for store code and pipeline
    - Used Trivy for container scanning
-   - Custom gitlab-runner installed in centos running GCP
-      - Terraform installed
-      - Azure CLI for login to azure
+   - Custom gitlab-runner and below tools installed in centos which running on GCP
+      - Git
+      - Java, Maven installed
+      - Azure CLI installed for login to azure 
       - Trivy installed
       - Docker installed
       - Kubectl service installed 
@@ -49,7 +50,7 @@
 ```
 - Created AKS cluster using terraform script add in same repo
 - GitLab Account
-- Gitlab Runner
+- Install Gitlab Runner and also installed
   - Trivy
   - Kubectl
   - Azure Cli

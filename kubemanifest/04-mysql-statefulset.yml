@@ -4,7 +4,7 @@ metadata:
   namespace: production
   name: mysql
 spec: 
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mysql

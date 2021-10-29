@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata: 
+  namespace: production
   name: mysql
 spec:
   type: ClusterIP

@@ -31,8 +31,6 @@ ls -lrt $HOME/.ssh/aks-prod-sshkeys-terraform
 
 ## Step-03: Create 3 more Terraform Input Vairables to variables.tf
 - SSH Public Key for Linux VMs
-- Windows Admin username
-- Windows Admin Password
 ```
 # V2 Changes
 # SSH Public Key for Linux VMs
@@ -41,23 +39,9 @@ variable "ssh_public_key" {
   description = "This variable defines the SSH Public Key for Linux k8s Worker nodes"  
 }
 
-# Windows Admin Username for k8s worker nodes
-variable "windows_admin_username" {
-  type = string
-  default = "azureuser"
-  description = "This variable defines the Windows admin username k8s Worker nodes"  
-}
-
-# Windows Admin Password for k8s worker nodes
-variable "windows_admin_password" {
-  type = string
-  default = "P@ssw0rd1234"
-  description = "This variable defines the Windows admin password k8s Worker nodes"  
-}
 ```
 
 ## Step-04: Create a Terraform Datasource for getting latest Azure AKS Versions 
-- Understand [Terraform Datasources](https://www.terraform.io/docs/configuration/data-sources.html) concept as part of this step
 - Data sources allow data to be fetched or computed for use elsewhere in Terraform configuration. 
 - Use of data sources allows a Terraform configuration to make use of information defined outside of Terraform, or defined by another separate Terraform configuration.
 - Use Azure AKS versions datasource API to get the latest version and use it
@@ -68,7 +52,7 @@ az aks get-versions --location centralus -o table
 - Create **04-aks-versions-datasource.tf**
 - **Important Note:**
   - `include_preview` defaults to true which means we get preview version as latest version which we should not use in production.
-  - So we need to enable this flag in datasource and make it to false to use latest version which is not in preview for our production grade clusters
+  - To enable this flag in datasource and make it to false to use latest version which is not in preview for our production grade clusters
 ```
 # Datasource to get Latest Azure AKS latest Version
 data "azurerm_kubernetes_service_versions" "current" {
@@ -76,11 +60,9 @@ data "azurerm_kubernetes_service_versions" "current" {
   include_preview = false  
 }
 ```
-- [Data Source: azurerm_kubernetes_service_versions](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/kubernetes_service_versions)
-
 ## Step-05: Create Azure Log Analytics Workspace Terraform Resource
 - The Azure Monitor for Containers (also known as Container Insights) feature provides performance monitoring for workloads running in the Azure Kubernetes cluster.
-- We need to create [Log Analytics workspace](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) and reference its id in AKS Cluster when enabling the monitoring feature.
+- We need to create and reference its id in AKS Cluster when enabling the monitoring feature.
 - Create a file **05-log-analytics-workspace.tf**
 ```
 # Create Log Analytics Workspace
@@ -93,8 +75,7 @@ resource "azurerm_log_analytics_workspace" "insights" {
 ```
 
 ## Step-06: Create Azure AD Group for AKS Admins Terraform Resource
-- To enable AKS AAD Integration, we need to provide Azure AD group object id. 
-- We wil create a [Azure Active Directory group](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/group) for AKS Admins
+- To enable AKS AAD Integration, we need to provide Azure AD group object id.
 ```
 # Create Azure AD Group in Active Directory for AKS Admins
 resource "azuread_group" "aks_administrators" {
@@ -102,11 +83,8 @@ resource "azuread_group" "aks_administrators" {
   description = "Azure AKS Kubernetes administrators for the ${azurerm_resource_group.aks_rg.name}-cluster."
 }
 ```
-
 ## Step-07: Create AKS Cluster Terraform Resource
 - Create a file named  **07-aks-cluster.tf**
-- Understand and discuss about the terraform resource named  [azurerm_kubernetes_cluster](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster)
-- This is going to be a very big terraform template when compared to what we created so far  we will do it slowly step by step.
 
 ```
 # Provision AKS Cluster
@@ -147,9 +125,9 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     name                 = "systempool"
     vm_size              = "Standard_DS2_v2"
     orchestrator_version = data.azurerm_kubernetes_service_versions.current.latest_version
-    availability_zones   = [1, 2, 3]
+    availability_zones   = [1,] # I have created 1 zone cluster
     enable_auto_scaling  = true
-    max_count            = 3
+    max_count            = 2
     min_count            = 1
     os_disk_size_gb      = 30
     type                 = "VirtualMachineScaleSets"
@@ -190,12 +168,6 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     }
   }
 
-# Windows Profile
-  windows_profile {
-    admin_username = var.windows_admin_username
-    admin_password = var.windows_admin_password
-  }
-
 # Linux Profile
   linux_profile {
     admin_username = "ubuntu"
@@ -211,7 +183,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   }
 
   tags = {
-    Environment = "dev"
+    Environment = "prod"
   }
 }
 
@@ -272,7 +244,6 @@ output "aks_cluster_kubernetes_version" {
 
 ```
 
-
 ## Step-09: Deploy Terraform Resources
 ```
 # Change Directory 
@@ -322,12 +293,12 @@ kubectl get nodes
 
 ## Step-12: Create a User in Azure AD and Associate User to AKS Admin Group in Azure AD
 - Create a user in Azure Active Directory
-  - User Name: taksadmin1
-  - Name: taksadmin1
-  - First Name: taks
-  - Last Name: admin1
+  - User Name: gokul@flyahead.org
+  - Name: gokul
+  - First Name: gokulakrishna
+  - Last Name: ganesan
   - Password: @AKSadmin11
-  - Groups: terraform-aks-prod-administrators
+  - Groups: aks-prod-administrators
   - Click on Create
 - Login and change password 
   - URL: https://portal.azure.com

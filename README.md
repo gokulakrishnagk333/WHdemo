@@ -23,7 +23,7 @@
    - Used Gitlab for store code and pipeline
    - Used Trivy for container scanning
    - Custom gitlab-runner installed in centos running GCP
-      - Installed terraform
+      - Terraform installed
       - Azure CLI for login to azure
       - Trivy installed
       - Docker installed
@@ -37,6 +37,18 @@ Bonus
 2. Container in Pod, should not be running as root
 3. Provide any code that you required to accomplish this task
 . You must document any steps that are not automated in the README.md
+```
+## Pre-requisites
+- Created AKS cluster using terraform script add in same repo
+- GitLab Account
+- Gitlab Runner
+  - Trivy
+  - Kubectl
+  - Azure Cli
+  - Docker
+  - Java
+  - Maven
+  - Created Kubemanifests files
 
 ```
 ## Step-01: Introduction
@@ -44,11 +56,10 @@ Bonus
 - Kubernetes Secrets let you store and manage sensitive information, such as passwords, OAuth tokens, and ssh keys. 
 - Storing confidential information in a Secret is safer and more flexible than putting it directly in a Pod definition or in a container image. 
 
-## Step-02: Create Secret for MySQL DB Password
+## Step-02: Created Secret for MySQL environment DB Password 
 ### 
 ```
-# Mac
-echo -n 'dbpassword11' | base64
+dbpassword11'
 
 # URL: https://www.base64encode.org
 ```
@@ -62,7 +73,6 @@ metadata:
 #It can contain arbitrary key-value pairs. 
 type: Opaque
 data:
-  # Output of echo -n 'Redhat1449' | base64
   db-password: ZGJwYXNzd29yZDEx
 ```
 ## Step-03: Update secret in MySQL Deployment for DB Password

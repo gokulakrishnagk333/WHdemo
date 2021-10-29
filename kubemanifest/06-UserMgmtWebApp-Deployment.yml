@@ -44,10 +44,3 @@ spec:
                 secretKeyRef:
                   name: api-key
                   key: db-password
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 8080
-              initialDelaySeconds: 5
-              periodSeconds: 5
-              successThreshold: 1

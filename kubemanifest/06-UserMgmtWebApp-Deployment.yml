@@ -6,7 +6,12 @@ metadata:
   labels:
     app: usermgmt-webapp
 spec:
-  replicas: 1
+  replicas: 2
+  strategy:
+  type: RollingUpdate
+  rollingUpdate:
+     maxUnavailable: 1
+     maxSurge: 1
   selector:
     matchLabels:
       app: usermgmt-webapp
@@ -38,4 +43,11 @@ spec:
               valueFrom: 
                 secretKeyRef:
                   name: api-key
-                  key: db-password       
+                  key: db-password
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+              initialDelaySeconds: 5
+              periodSeconds: 5
+              successThreshold: 1

@@ -76,9 +76,9 @@ AKS Deployment:
 Zap Scanner:
   stage: zapscanner
   script:
-    - kubectl get svc
+    - kubectl get service
     - |
-      kubectl get svc > tmp.txt
+      kubectl get service > tmp.txt
       ServiceIP=`cat tmp.txt | grep LoadBalancer | awk '{print $4}'`
 #      ServiceIP=`kubectl get svc | grep LoadBalancer | awk '{print $4}'`
     - sudo docker run -v $(pwd)/report:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -I -t $ServiceIP -r testreport.html

@@ -1,3 +1,8 @@
+# Understood the given requirement and completed the tasks
+```
+- Please read entire read.me file
+```
+
 ## Repo created in github / gitlab and solved below Option 1 problem
 ```
 1. Created a kubernetes Java Application with Mysql DB deployment, svc, hpa, pdb service account in AKS kubernetes cluster
@@ -45,8 +50,7 @@
 3. Provide any code that you required to accomplish this task
 4. You must document any steps that are not automated in the README.md
 ```
-
-## Pre-requisites
+# Pre-requisites
 ```
 - Created AKS cluster using terraform script add in same repo
 - GitLab Account
@@ -57,9 +61,18 @@
   - Docker
   - Java
   - Maven
-  - Created Kubemanifests files
-```
+- Created Required Kubemanifest files and add in repo
+- Created Pipeline using .gitlab-ci.yml
+  -stages:
+    - dependency
+    - build
+    - trivyscanner
+    - pushtocr
+    - deployment
+    - zapscanner
 
+```
+# Implementation Part
 ## Step-01: Introduction
 ```
 - Created a kubernetes deployment, svc, hpa, pdb service account in kubernetes cluster

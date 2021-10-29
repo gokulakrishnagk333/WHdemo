@@ -10,8 +10,6 @@ spec:
       app: mysql
   strategy:
     type: Recreate
-    rollingUpdate:
-      maxUnavailable: 1
   template: 
     metadata: 
       labels: 

@@ -59,7 +59,11 @@ AKS Deployment:
     # - az account set --subscription $AZURE_SUBSCRIPTION_ID
     # - az aks get-credentials --resource-group az --name az
     # - cd kubemanifest
+    - sudo kubectl create namespace production
     - sudo kubectl apply -f kubemanifest/
+    - Sudo kubectl get deployments
+    - sudo kubectl get pods -n production
+    - sudo kubectl get secret -A
   tags:
     - devops
   only:

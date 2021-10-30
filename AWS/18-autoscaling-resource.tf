@@ -2,7 +2,7 @@
 resource "aws_autoscaling_group" "my_asg" {
   name_prefix = "myasg-"
   desired_capacity   = 2
-  max_size           = 10
+  max_size           = 4
   min_size           = 2
   vpc_zone_identifier  = module.vpc.private_subnets
   target_group_arns = module.nlb.target_group_arns

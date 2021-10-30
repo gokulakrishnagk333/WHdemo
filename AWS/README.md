@@ -64,7 +64,7 @@ module "nlb" {
     {
       name_prefix      = "app1-"
       backend_protocol = "TCP"
-      backend_port     = 80
+      backend_port     = 31555
       target_type      = "instance"
       deregistration_delay = 10
       health_check = {
@@ -172,25 +172,7 @@ resource "aws_route53_record" "apps_dns" {
 ## Step-08: c13-06-autoscaling-ttsp.tf
 - Comment TTSP ALB policy which is not applicable to NLB
 ```t
-# TTS - Scaling Policy-2: Based on ALB Target Requests
-# THIS POLICY IS SPECIFIC TO ALB and NOT APPLICABLE TO NLB
-/*
-resource "aws_autoscaling_policy" "alb_target_requests_greater_than_yy" {
-  name                   = "alb-target-requests-greater-than-yy"
-  policy_type = "TargetTrackingScaling" # Important Note: The policy type, either "SimpleScaling", "StepScaling" or "TargetTrackingScaling". If this value isn't provided, AWS will default to "SimpleScaling."    
-  autoscaling_group_name = aws_autoscaling_group.my_asg.id 
-  estimated_instance_warmup = 120 # defaults to ASG default cooldown 300 seconds if not set  
-  # Number of requests > 10 completed per target in an Application Load Balancer target group.
-  target_tracking_configuration {
-    predefined_metric_specification {
-      predefined_metric_type = "ALBRequestCountPerTarget"
-      resource_label =  "${module.alb.lb_arn_suffix}/${module.alb.target_group_arn_suffixes[0]}"    
-    }  
-    target_value = 10.0
-  }    
-}
-*/
-```
+```     
 ## Step-09: Execute Terraform Commands
 ```t
 # Terraform Initialize
@@ -218,14 +200,13 @@ terraform apply -auto-approve
 6. Access and Test
 ```t
 # Access and Test with Port 80 - TCP Listener
-http://nlb.devopsincloud.com
-http://nlb.devopsincloud.com/app1/index.html
-http://nlb.devopsincloud.com/app1/metadata.html
+http://nlb.flyahead.org
+http://nlb.flyahead.org/index.html
 
 # Access and Test with Port 443 - TLS Listener
-https://nlb.devopsincloud.com
-https://nlb.devopsincloud.com/app1/index.html
-https://nlb.devopsincloud.com/app1/metadata.html
+https://nlb.flyahead.org
+https://nlb.flyahead.org/app1/index.html
+https://nlb.flyahead.org/app1/metadata.html
 ```
 
 ## Step-11: Clean-Up
@@ -237,9 +218,6 @@ terraform destroy -auto-approve
 rm -rf .terraform*
 rm -rf terraform.tfstate*
 ```
-
-
-
 ## References
 -[Complete NLB - Example](https://registry.terraform.io/modules/terraform-aws-modules/alb/aws/latest/examples/complete-nlb)
 

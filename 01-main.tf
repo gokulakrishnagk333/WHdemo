@@ -29,7 +29,7 @@ terraform {
 # Terraform State Storage to Azure Storage Container
   backend "azurerm" {
     resource_group_name   = "storage-rg"
-    storage_account_name  = "gokulazstorage"
+    storage_account_name  = "gokuldemostorage"
     container_name        = "tfstatefiles"
     key                   = "dev.terraform.tfstate"
   }  

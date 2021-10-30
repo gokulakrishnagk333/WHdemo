@@ -61,7 +61,7 @@ AKS Deployment:
     # - cd kubemanifest
     - sudo kubectl create namespace production
     - sudo kubectl apply -f kubemanifest/
-    - Sudo kubectl get deployments
+    - sudo kubectl get deployments
     - sudo kubectl get pods -n production
     - sudo kubectl get secret -A
   tags:

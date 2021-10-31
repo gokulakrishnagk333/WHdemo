@@ -1,6 +1,6 @@
 # Provision Azure AKS Cluster using Terraform
 
-## Step-01: Introduction
+## Introduction
 - Create SSH Keys for AKS Linux VMs
 - Understand about Datasources and Create Datasource for Azure AKS latest Version
 - Create Azure Log Analytics Workspace Resource in Terraform
@@ -11,7 +11,7 @@
 - Access and Test using Azure AKS default admin `--admin`
 - Access and Test using Azure AD User as AKS Admin
 
-## Step-02: Create SSH Public Key for Linux VMs
+## Create SSH Public Key for Linux VMs
 ```
 # Create Folder
 mkdir $HOME/.ssh/aks-prod-sshkeys-terraform
@@ -21,7 +21,7 @@ ssh-keygen \
     -m PEM \
     -t rsa \
     -b 4096 \
-    -C "azureuser@myserver" \
+    -C "gitlab-runner@rancher.gokulakrishna.me" \ #rancher.gokulakrishna.me is a hostname in this host gitlab-runner configured
     -f ~/.ssh/aks-prod-sshkeys-terraform/aksprodsshkey \
     -N mypassphrase
 
@@ -29,7 +29,7 @@ ssh-keygen \
 ls -lrt $HOME/.ssh/aks-prod-sshkeys-terraform
 ```
 
-## Step-03: Create 3 more Terraform Input Vairables to variables.tf
+## Created Terraform Input Vairables to variables.tf
 - SSH Public Key for Linux VMs
 ```
 # V2 Changes
@@ -41,7 +41,7 @@ variable "ssh_public_key" {
 
 ```
 
-## Step-04: Create a Terraform Datasource for getting latest Azure AKS Versions 
+## Created a Terraform Datasource for getting latest Azure AKS Versions 
 - Data sources allow data to be fetched or computed for use elsewhere in Terraform configuration. 
 - Use of data sources allows a Terraform configuration to make use of information defined outside of Terraform, or defined by another separate Terraform configuration.
 - Use Azure AKS versions datasource API to get the latest version and use it
@@ -49,7 +49,7 @@ variable "ssh_public_key" {
 # Call get-versions API via command line
 az aks get-versions --location centralus -o table
 ```
-- Create **04-aks-versions-datasource.tf**
+- Created '04-aks-versions-datasource.tf'
 - **Important Note:**
   - `include_preview` defaults to true which means we get preview version as latest version which we should not use in production.
   - To enable this flag in datasource and make it to false to use latest version which is not in preview for our production grade clusters
@@ -60,12 +60,12 @@ data "azurerm_kubernetes_service_versions" "current" {
   include_preview = false  
 }
 ```
-## Step-05: Create Azure Log Analytics Workspace Terraform Resource
+## Created Azure Log Analytics Workspace Terraform Resource
 - The Azure Monitor for Containers (also known as Container Insights) feature provides performance monitoring for workloads running in the Azure Kubernetes cluster.
 - Need to create and reference its id in AKS Cluster when enabling the monitoring feature.
-- Create a file **05-log-analytics-workspace.tf**
+- Created a file '05-log-analytics-workspace.tf'
 ```
-# Create Log Analytics Workspace
+# Created Log Analytics Workspace
 resource "azurerm_log_analytics_workspace" "insights" {
   name                = "logs-${random_pet.aksrandom.id}"
   location            = azurerm_resource_group.aks_rg.location
@@ -74,7 +74,7 @@ resource "azurerm_log_analytics_workspace" "insights" {
 }
 ```
 
-## Step-06: Create Azure AD Group for AKS Admins Terraform Resource
+## Created Azure AD Group for AKS Admins Terraform Resource
 - To enable AKS AAD Integration, we need to provide Azure AD group object id.
 ```
 # Create Azure AD Group in Active Directory for AKS Admins
@@ -83,8 +83,8 @@ resource "azuread_group" "aks_administrators" {
   description = "Azure AKS Kubernetes administrators for the ${azurerm_resource_group.aks_rg.name}-cluster."
 }
 ```
-## Step-07: Create AKS Cluster Terraform Resource
-- Create a file named  **07-aks-cluster.tf**
+## Created AKS Cluster Terraform Resource
+- Created a file named  '07-aks-cluster.tf'
 
 ```
 # Provision AKS Cluster
@@ -189,10 +189,10 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
 
 ```
 
-## Step-08: Create Terraform Output Values for AKS Cluster
-- Create a file named **08-outputs.tf**
+## Created Terraform Output Values for AKS Cluster
+- Created a file named '08-outputs.tf'
 ```
-# Create Outputs
+# Created Outputs
 # 1. Resource Group Location
 # 2. Resource Group Id
 # 3. Resource Group Name
@@ -244,12 +244,9 @@ output "aks_cluster_kubernetes_version" {
 
 ```
 
-## Step-09: Deploy Terraform Resources
+## Deploy Terraform Resources
 ```
-# Change Directory 
-cd 24-03-Create-AKS-Cluster/terraform-manifests-aks
-
-# Initialize Terraform from this new folder
+# Initialize Terraform from this new folder or also you can run using gitlab pipeline
 # Anyway our state storage is from Azure Storage we are good from any folder
 terraform init
 
@@ -263,7 +260,7 @@ terraform plan
 terraform apply 
 ```
 
-## Step-10: Access Terraform created AKS cluster using AKS default admin
+## Access Terraform created AKS cluster using AKS default admin
 ```
 # Azure AKS Get Credentials with --admin
 az aks get-credentials --resource-group aks-prod --name aks-prod-cluster --admin
@@ -279,7 +276,7 @@ kubectl cluster-info
 kubectl get nodes
 ```
 
-## Step-11: Verify Resources using Azure Management Console
+## Verified Resources using Azure Management Console
 - Resource Group
   - aks-prod
   - aks-prod-nrg
@@ -290,9 +287,9 @@ kubectl get nodes
 - Azure AD Group
   - aks-prod-cluster-administrators
 
-## Step-12: Create a User in Azure AD and Associate User to AKS Admin Group in Azure AD
+## Created a User in Azure AD and Associate User to AKS Admin Group in Azure AD
 
-- Create a user in Azure Active Directory # "Flyahead Domain" is my test domain already added as custom primary domain in my azure accoiunt.
+- Created a user in Azure Active Directory # "Flyahead Domain" is my test domain already added as custom primary domain in my azure accoiunt.
   - User Name: gokul@flyahead.org
   - Name: gokul
   - First Name: gokulakrishna
@@ -307,7 +304,7 @@ kubectl get nodes
   - New Password: @AKSadmin22
   - Confirm Password: @AKSadmin22
 
-## Step-13: Access Terraform created AKS Cluster 
+## Access Terraform created AKS Cluster  Manully
 ```
 # Installed azure cli in gitlabrunner
 # Azure AKS Get Credentials with --admin
@@ -320,3 +317,11 @@ Code: GUKJ3T9AC (sample)
 Username: gokul@flyahead.org  (Change your domain name)
 Password: @AKSadmin22
 ```
+Created service account gitlab-runner to login to cluster with its secret and token  (to check gitlabrunner service account YAML from following url https://gitlab.com/gokulakrishnag/gokul/-/blob/main/pre-requisites-serviceaccount-role-rolebinding.yml)
+
+kubectl apply -f pre-requisites-serviceaccount-role-rolebinding.yml
+kubectl describe secret gitlab-runner-xert-rery
+
+switched User gokul in gitlab-runner
+
+

@@ -8,8 +8,7 @@
 - Create AKS Cluster with default nodepool
 - Create AKS Cluster Output Values
 - Provision Azure AKS Cluster using Terraform
-- Access and Test using Azure AKS default admin `--admin`
-- Access and Test using Azure AD User as AKS Admin
+- 
 
 ## Create SSH Public Key for Linux VMs
 ```
@@ -304,7 +303,7 @@ kubectl get nodes
   - New Password: @AKSadmin22
   - Confirm Password: @AKSadmin22
 
-## Access Terraform created AKS Cluster  Manully
+## Access Terraform created AKS Cluster Manully
 ```
 # Installed azure cli in gitlabrunner
 # Azure AKS Get Credentials with --admin
@@ -317,11 +316,14 @@ Code: GUKJ3T9AC (sample)
 Username: gokul@flyahead.org  (Change your domain name)
 Password: @AKSadmin22
 ```
+## Service Account Configuration
+```
 Created service account gitlab-runner to login to cluster with its secret and token  (to check gitlabrunner service account YAML from following url https://gitlab.com/gokulakrishnag/gokul/-/blob/main/pre-requisites-serviceaccount-role-rolebinding.yml)
 
 kubectl apply -f pre-requisites-serviceaccount-role-rolebinding.yml
-kubectl describe secret gitlab-runner-xert-rery
-
-switched User gokul in gitlab-runner
-
+TOKENNAME=`kubectl -n kube-system get serviceaccount/gitlab-runner -o jsonpath='{.secrets[0].name}'`
+TOKEN=`kubectl -n kube-system get secret $TOKENNAME -o jsonpath='{.data.token}'| base64 --decode`
+kubectl config set-credentials gitlab-runner --token=$TOKEN
+kubectl config set-context --current --user=gitlabrunner
+```
 

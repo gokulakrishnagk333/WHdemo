@@ -1,19 +1,21 @@
 # Understood the given requirement and completed the tasks
 ```
+- Based on my understanding with available resource I have created deployment using my java based application with Mysql DB. 
 - Please read entire read.me file
 ```
 ## Repo created in github / gitlab and solved below Option 1 problem
 ```
 1. Create a kubernetes deployment, svc, hpa, pdb service account in kubernetes cluster. can be PaaS/Minikube
  - Created a kubernetes Java Application with Mysql DB deployment, svc, hpa, pdb service account in AKS kubernetes cluster
-2. Deployment needs a secret with name API_KEY
+2. Deployment needs a secret with name API-KEY
  - Both Mysql and Usermanagement WebApp deployments need a secret with name API-KEY
 3. Mount this secret in deployment
- - Mounted this secret.
+ - Not Mounted this API-Key secret in PV.
+ - Mounted mysql_usermgmt.sql file as Config-Map(usermanagement-dbcreation-script) in PV
 4. API_KEY should be a environment variables within the container when container starts inside a pod
- - API_KEY is refered as mysqldbpassword in Mysql environment variables within the container when container starts inside a pod
+ - API-KEY is refered as mysqldbpassword in Mysql environment variables within the container when container starts inside a pod 
 5. API_KEY env variable is not used yet in app, but we want to see the approach
- - API_KEY env variable is not used yet in app, once the Mysql / Usermanagement WebApp pod created it get the mysql db password from secret
+ - API_KEY env variable is not used yet in app, once the Mysql / Usermanagement WebApp pod created it container refer the mysql db password from secret
 ```
 ## Acceptance criteria
 ```
@@ -30,7 +32,7 @@
 6. You must have dedicated service account for deployment
   - Created dedicated service account(gitlab-runner)for deployment (you can check in https://gitlab.com/gokulakrishnag/gokul/-/blob/main/pre-requisites-serviceaccount-role-rolebinding.yml)
 7. You must have NodePort Type of service for application
-  - Created NodePort Type of service for application (I have included NodePort in the code but I have used to LoadBalancer in my Demo)
+  - Created NodePort Type service for application and included in Code. (I have included NodePort in the code but I have used LoadBalancer in my Demo)
 8. You must have Minimum 2 pods always up and running
   - Allocated minimum 2 pods always up and running
 9. You must have only 1 pod unavailable during Rolling Update of Deployment
@@ -81,7 +83,7 @@
   - Maven
   - Terraform
 - Created AKS cluster using terraform script from gitlab runner VM add in same repo (check it from following url https://gitlab.com/gokulakrishnag/gokul/-/tree/terraform )
-- Created service account gitlab-runner to login to cluster with its secret and token  (to check gitlabrunner service account YAML from following url https://gitlab.com/gokulakrishnag/gokul/-/blob/main/pre-requisites-serviceaccount-role-rolebinding.yml)
+- Created service account gitlab-runner to login to cluster with its config file which consist of secret and token  (to check gitlabrunner service account YAML from following url https://gitlab.com/gokulakrishnag/gokul/-/blob/main/pre-requisites-serviceaccount-role-rolebinding.yml)
 - GitLab Account
 - Created Required Kubemanifest files and add in repo
 - Created Pipeline using .gitlab-ci.yml
@@ -293,7 +295,7 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 2        # how many pods we can add at a time
+      maxSurge: 1        # how many pods we can add at a time
       maxUnavailable: 1  # maxUnavailable define how many pods can be unavailable # during the rolling update           
   selector:
     matchLabels:
@@ -356,7 +358,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: usermgmt-webapp
-  minReplicas: 1
+  minReplicas: 2
   maxReplicas: 10
   targetCPUUtilizationPercentage: 50
 # HPA Imperative - Replace
@@ -407,7 +409,7 @@ Stage 5 (Deployment)
        - API-KEY environment variable is not used yet in the MySQL pod container, once the container gets created it will fetch the password from the secret file.
     - Created MySQL Cluster IP Service on port 3306
 	- Created User Management Application Pod Deployment with 3 replicas and strategy type is RollingUpdate
-	   - Add MaxSurge = 2 ( can add 2 pods at a update time) and MaxUnavailable = 1 (only 1 pod unavailable during Rolling Update of Deployment)
+	   - Add MaxSurge = 1 ( can add 2 pods at a update time) and MaxUnavailable = 1 (only 1 pod unavailable during Rolling Update of Deployment)
 	   - Added init container to wait until MySQL service is available.
 	   - API-KEY environment variable is not used yet in the user management pod container, once the container gets created it will fetch the password from the secret file.
 	- Created user-mgmt-web app LoadBalancer (in code i have mentioned NodeBalancer, here i used LoadBalancer because it recommended method) Service on port 80 and target port is 8080.
@@ -426,8 +428,11 @@ Stage 6 (Zap Scanner)
 ![Image](Demo_Images/pipeline2.png)
 
 # Access Application
+
 ```
 http://<External-IP-from-get-service-output>
 Username: admin101
 Password: password101
 ```
+![Image](Demo_Images/applogin.png)
+![Image](Demo_Images/afterlogin.png)

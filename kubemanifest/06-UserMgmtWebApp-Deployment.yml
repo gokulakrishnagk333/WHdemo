@@ -51,7 +51,5 @@ spec:
               readOnly: true # Refer Initializing a fresh instance                                            
       volumes: 
         - name: mysql-persistent-storage
-          persistentVolumeClaim:
-            claimName: azure-managed-disk-pvc
           secret:
             secretName: api-key

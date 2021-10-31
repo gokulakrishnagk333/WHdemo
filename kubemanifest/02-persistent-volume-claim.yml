@@ -10,7 +10,19 @@ spec:
   resources:
     requests:
       storage: 5Gi      
-
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: production
+  name: azure-managed-disk-pvc-app
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: managed-premium-retain-sc 
+  resources:
+    requests:
+      storage: 5Gi     
 
 # Mapped PVC with customized storage class to retain
 # AKS already provisioned Storage classes managed-premium 

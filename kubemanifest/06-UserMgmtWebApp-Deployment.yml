@@ -27,6 +27,7 @@ spec:
       containers:
         - name: usermgmt-webapp
           image: flyahead/gokul-usermgmt-webapp:1.2.0
+          command: [ "/bin/sh", "-c", "cat /etc/secret-volume/*" ]
           imagePullPolicy: Always
           ports: 
             - containerPort: 8080           
@@ -40,16 +41,17 @@ spec:
             - name: DB_USERNAME
               value: "root"            
             - name: DB_PASSWORD
-              valueFrom: 
-                secretKeyRef:
-                  name: api-key
-                  key: db-password
+              # valueFrom: 
+              #   secretKeyRef:
+              #     name: api-key
+              #     key: db-password
           volumeMounts:
             - name: app-persistent-storage
-              mountPath: /usr/local/tomcat/webapps/ # Refer Initializing a fresh instance                                            
+              mountPath: /usr/local/tomcat/webapps
+              readOnly: true # Refer Initializing a fresh instance                                            
       volumes: 
         - name: app-persistent-storage
           persistentVolumeClaim:
             claimName: azure-managed-disk-pvc
-          Secret:
-            name: api-key
+          secret:
+            secretName: api-key

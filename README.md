@@ -30,7 +30,7 @@
 5. You must document any steps that are not automated in the README.md
   - Documented all steps that are automated and not automated in the README.md
 6. You must have dedicated service account for deployment
-  - Created dedicated service account(gitlab-runner)for deployment (you can check in https://gitlab.com/gokulakrishnag/gokul/-/blob/main/pre-requisites-serviceaccount-role-rolebinding.yml)
+  - Created dedicated service account(gitlab-runner)for deployment (you can check in https://github.com/gokulakrishnagk333/WHdemo/blob/main/pre-requisites-serviceaccount-role-rolebinding.yml)
 7. You must have NodePort Type of service for application
   - Created NodePort Type service for application and included in Code. (I have included NodePort in the code but I have used LoadBalancer in my Demo)
 8. You must have Minimum 2 pods always up and running
@@ -83,8 +83,8 @@
   - Java
   - Maven
   - Terraform
-- Created AKS cluster using terraform script from gitlab runner VM add in same repo (check it from following url https://gitlab.com/gokulakrishnag/gokul/-/tree/terraform )
-- Created service account gitlab-runner to login to cluster with its config file which consist of secret and token  (to check gitlabrunner service account YAML from following url https://gitlab.com/gokulakrishnag/gokul/-/blob/main/pre-requisites-serviceaccount-role-rolebinding.yml)
+- Created AKS cluster using terraform script from gitlab runner VM add in same repo (check it from following url https://github.com/gokulakrishnagk333/WHdemo/tree/terraform)
+- Created service account gitlab-runner to login to cluster with its config file which consist of secret and token  (to check gitlabrunner service account YAML from following url https://github.com/gokulakrishnagk333/WHdemo/blob/main/pre-requisites-serviceaccount-role-rolebinding.yml)
 - GitLab Account
 - Created Required Kubemanifest files and add in repo
 - Created Pipeline using .gitlab-ci.yml

@@ -52,6 +52,6 @@ spec:
       volumes: 
         - name: app-persistent-storage
           persistentVolumeClaim:
-            claimName: azure-managed-disk-pvc
+            claimName: azure-managed-disk-pvc-app
           secret:
             secretName: api-key

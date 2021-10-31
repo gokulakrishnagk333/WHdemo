@@ -45,10 +45,11 @@ spec:
                   name: api-key
                   key: db-password
           volumeMounts:
-          # name must match the volume name below
-          - name: api-key
-            mountPath: /etc/api-key
-      volumes:
-        - name: secret-volume
-          secret:
-            secretName: api-key
+            - name: app-persistent-storage
+              mountPath: /usr/local/tomcat/webapps/ # Refer Initializing a fresh instance                                            
+      volumes: 
+        - name: app-persistent-storage
+          persistentVolumeClaim:
+            claimName: azure-managed-disk-pvc
+          Secret:
+            name: api-key

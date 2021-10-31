@@ -415,8 +415,10 @@ Stage 5 (Deployment)
 	- Created user-mgmt-web app LoadBalancer (in code i have mentioned NodeBalancer, here i used LoadBalancer because it recommended method) Service on port 80 and target port is 8080.
 	- Created HPA for user-mgmt-webapp with minReplicas = 2 maxReplicas = 10 targetCPUUtilizationPercentage: 50
 ```
-![Image](Demo_Images/Deployment1.png)
 ![Image](Demo_Images/Deployment2.png)
+![Image](Demo_Images/Deployment1.png)
+![Image](Demo_Images/Secret.png)
+![Image](Demo_Images/Azure_Workload.png)
 ```
 Stage 6 (Zap Scanner)
 

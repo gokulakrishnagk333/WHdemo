@@ -8,11 +8,11 @@ stages:
 variables:
   GIT_STRATEGY: clone
 
-before_script:
+before_script:  # this is used provide builds folder permission of gitlab-runner user in gitlab-runner centos server
   - sudo chmod -R 777 /home/gitlab-runner/builds
   - sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/builds
 
-Dependencies:
+Dependencies: # to cross check the permission applied, so added same script (before script) in this stage
   stage: dependency
   script:
     - sudo chmod -R 777 /home/gitlab-runner/builds
@@ -37,7 +37,7 @@ Trivy Scanner:
   script:
     - sudo docker images
     # - sudo trivy --exit-code 1 --no-progress --ignore-unfixed --severity HIGH,CRITICAL flyahead/gokul-usermgmt-webapp:1.2.0 # if the image has high or critical vulnerability pipeline will be exited, so if you should enable it.
-    - sudo trivy --no-progress --ignore-unfixed --severity HIGH,CRITICAL flyahead/gokul-usermgmt-webapp:1.2.0
+    - sudo trivy --no-progress --ignore-unfixed --severity HIGH,CRITICAL flyahead/gokul-usermgmt-webapp:1.2.0 # if you removed the --exit-code it go to next stage.
   tags:
     - devops
   only:

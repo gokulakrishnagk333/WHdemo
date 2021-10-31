@@ -95,12 +95,12 @@ Please check in 1st step
 #### 6.1. Schedule Auto-Scaling-Group to be scale down all instances after 18:00 PM CET Mon-Fri
 ##### Create Scheduled Action-2: Decrease capacity during business hours
 ```
-resource "aws_autoscaling_schedule" "decrease_capacity_5pm" {
-  scheduled_action_name  = "decrease-capacity-5pm"
+resource "aws_autoscaling_schedule" "decrease_capacity_6pm" {
+  scheduled_action_name  = "decrease-capacity-6pm"
   min_size               = 2
   max_size               = 4
   desired_capacity       = 0
-  start_time             = "2030-03-30T21:00:00Z" # Time should be provided in UTC Timezone (4PM UTC = 6PM CET)
+  start_time             = "2030-03-30T16:00:00Z" # Time should be provided in UTC Timezone (4PM UTC = 6PM CET)
   recurrence             = "00 16 * * 1-5"
   autoscaling_group_name = aws_autoscaling_group.my_asg.id
 }
@@ -108,12 +108,12 @@ resource "aws_autoscaling_schedule" "decrease_capacity_5pm" {
 #### 6.2. Schedule Auto-Scaling-Group to be scale up all instances after 8 AM CET
 ##### Create Scheduled Action-1: Increase capacity during business hours
 ```
-resource "aws_autoscaling_schedule" "increase_capacity_7am" {
-  scheduled_action_name  = "increase-capacity-7am"
+resource "aws_autoscaling_schedule" "increase_capacity_8am" {
+  scheduled_action_name  = "increase-capacity-8am"
   min_size               = 2
   max_size               = 4
   desired_capacity       = 2
-  start_time             = "2030-03-30T11:00:00Z" # Time should be provided in UTC Timezone (6AM UTC = 8AM CET)
+  start_time             = "2030-03-30T06:00:00Z" # Time should be provided in UTC Timezone (6AM UTC = 8AM CET)
   recurrence             = "00 06 * * 1-5"
   autoscaling_group_name = aws_autoscaling_group.my_asg.id 
 }
@@ -135,144 +135,7 @@ resource "aws_autoscaling_schedule" "increase_capacity_7am" {
 #### 2. When hit the NLB URL on port 80, it connects to EC2 and shows nginx/httpd sample page
 
 
-## Introduction
-- Create [AWS Network Load Balancer using Terraform Module](https://registry.terraform.io/modules/terraform-aws-modules/alb/aws/latest)
-- Create TCP Listener
-- Create TLS Listener
-- Create Target Group
-
-### 07-securitygroup-privatesg.tf
-- NLB requires private security group EC2 Instances to have the `ingress_cidr_blocks` as `0.0.0.0/0`
-```t
-# Before
-  ingress_cidr_blocks = [module.vpc.vpc_cidr_block]
-
-# After
-  ingress_cidr_blocks = ["0.0.0.0/0"] # Required for NLB
-```
-## 24-NLB-network-loadbalancer.tf
-- Create [AWS Network Load Balancer using Terraform Module](https://registry.terraform.io/modules/terraform-aws-modules/alb/aws/latest)
-- Create TCP Listener
-- Create TLS Listener
-- Create Target Group
-```t
-```
-# Terraform AWS Network Load Balancer (NLB)
-```
-module "nlb" {
-  source  = "terraform-aws-modules/alb/aws"
-  version = "6.0.0"
-  name_prefix = "nlb-"
-  load_balancer_type = "network"
-  vpc_id = module.vpc.vpc_id
-  subnets = module.vpc.public_subnets
-  #security_groups = [module.loadbalancer_sg.this_security_group_id] # Security Groups not supported for NLB
-  # TCP Listener 
-    http_tcp_listeners = [
-    {
-      port               = 80
-      protocol           = "TCP"
-      target_group_index = 0
-    }  
-  ]  
-
-  #  TLS Listener
-  https_listeners = [
-    {
-      port               = 443
-      protocol           = "TLS"
-      certificate_arn    = module.acm.acm_certificate_arn
-      target_group_index = 0
-    },
-  ]
-
-
-  # Target Group
-  target_groups = [
-    {
-      name_prefix      = "app-"
-      backend_protocol = "TCP"
-      backend_port     = 31555
-      target_type      = "instance"
-      deregistration_delay = 10
-      health_check = {
-        enabled             = true
-        interval            = 30
-        path                = "/index.html"
-        port                = "traffic-port"
-        healthy_threshold   = 3
-        unhealthy_threshold = 3
-        timeout             = 6
-      }      
-    },
-  ]
-  tags = local.common_tags 
-}
-```
-## 25-NLB-network-loadbalancer-outputs.tf
-```t
-# Terraform AWS Network Load Balancer (NLB) Outputs
-output "lb_id" {
-  description = "The ID and ARN of the load balancer we created."
-  value       = module.nlb.lb_id
-}
-
-output "lb_arn" {
-  description = "The ID and ARN of the load balancer we created."
-  value       = module.nlb.lb_arn
-}
-
-output "lb_dns_name" {
-  description = "The DNS name of the load balancer."
-  value       = module.nlb.lb_dns_name
-}
-
-output "lb_arn_suffix" {
-  description = "ARN suffix of our load balancer - can be used with CloudWatch."
-  value       = module.nlb.lb_arn_suffix
-}
-
-output "lb_zone_id" {
-  description = "The zone_id of the load balancer to assist with creating DNS records."
-  value       = module.nlb.lb_zone_id
-}
-
-output "http_tcp_listener_arns" {
-  description = "The ARN of the TCP and HTTP load balancer listeners created."
-  value       = module.nlb.http_tcp_listener_arns
-}
-
-output "http_tcp_listener_ids" {
-  description = "The IDs of the TCP and HTTP load balancer listeners created."
-  value       = module.nlb.http_tcp_listener_ids
-}
-
-output "https_listener_arns" {
-  description = "The ARNs of the HTTPS load balancer listeners created."
-  value       = module.nlb.https_listener_arns
-}
-
-output "https_listener_ids" {
-  description = "The IDs of the load balancer listeners created."
-  value       = module.nlb.https_listener_ids
-}
-
-output "target_group_arns" {
-  description = "ARNs of the target groups. Useful for passing to your Auto Scaling group."
-  value       = module.nlb.target_group_arns
-}
-
-output "target_group_arn_suffixes" {
-  description = "ARN suffixes of our target groups - can be used with CloudWatch."
-  value       = module.nlb.target_group_arn_suffixes
-}
-
-output "target_group_names" {
-  description = "Name of the target group. Useful for passing to your CodeDeploy Deployment Group."
-  value       = module.nlb.target_group_names
-}
-```
-## 26-route53-dnsregistration.tf
+## Additional Bonus I have attached NLB with Route53
 ```
 - **Change-1:** Update DNS Name
 - **Change-2:** Update `alias name`
@@ -289,14 +152,6 @@ resource "aws_route53_record" "apps_dns" {
     evaluate_target_health = true
   }  
 }
-```
-## 22-autoscaling-resource.tf
-- Change the module name for `target_group_arns` to `nlb`
-```t
-# Before
-  target_group_arns = module.alb.target_group_arns
-# After
-  target_group_arns = module.nlb.target_group_arns
 ```
 ## Execute Terraform Commands
 ```t
@@ -333,15 +188,11 @@ https://nlb.flyahead.org
 https://nlb.flyahead.org/index.html
 
 ```
-
-## Step-11: Clean-Up
+## Clean-Up
 ```t
 # Terraform Destroy
 terraform destroy -auto-approve
 
-# Clean-Up Files
-rm -rf .terraform*
-rm -rf terraform.tfstate*
 ```
 ## References
 -[Complete NLB - Example](https://registry.terraform.io/modules/terraform-aws-modules/alb/aws/latest/examples/complete-nlb)

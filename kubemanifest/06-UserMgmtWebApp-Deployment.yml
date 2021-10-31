@@ -46,12 +46,12 @@ spec:
               #     name: api-key
               #     key: db-password
           volumeMounts:
-            - name: app-persistent-storage
+            - name: mysql-persistent-storage
               mountPath: /usr/local/tomcat/webapps
               readOnly: true # Refer Initializing a fresh instance                                            
       volumes: 
-        - name: app-persistent-storage
+        - name: mysql-persistent-storage
           persistentVolumeClaim:
-            claimName: azure-managed-disk-pvc-app
+            claimName: azure-managed-disk-pvc
           secret:
             secretName: api-key

@@ -10,7 +10,7 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 2        # how many pods we can add at a time
+      maxSurge: 1        # how many pods we can add at a time
       maxUnavailable: 1  # maxUnavailable define how many pods can be unavailable # during the rolling update           
   selector:
     matchLabels:

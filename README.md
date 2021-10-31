@@ -76,6 +76,7 @@
 - Created Gitlab runner VM in GCP
 - Installed following tools in Gitlab Runner
   - Trivy
+  - Gitlab runner
   - Kubectl
   - Azure Cli
   - Docker

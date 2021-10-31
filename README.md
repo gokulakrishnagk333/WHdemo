@@ -99,7 +99,7 @@
 Stage 1 (Dependency): 
  - It will start to run the dependencies stage.
  - This stage will help to execute all other stages in GitLab-runner without any issues.
-[![Image](https://demo.flyahead.org/demo/Dependencies.png)]
+![Image](https://demo.flyahead.org/demo/Dependencies.png)
 ```
 ```
 Stage 2 (Build): 

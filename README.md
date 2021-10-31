@@ -8,7 +8,8 @@
 - Create AKS Cluster with default nodepool
 - Create AKS Cluster Output Values
 - Provision Azure AKS Cluster using Terraform
-- 
+- Access Terraform created AKS Cluster Manully
+- Service Account Configuration to access from Gitlab Runner VM
 
 ## Create SSH Public Key for Linux VMs
 ```

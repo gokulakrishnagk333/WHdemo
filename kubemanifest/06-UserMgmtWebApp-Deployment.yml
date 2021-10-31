@@ -27,7 +27,6 @@ spec:
       containers:
         - name: usermgmt-webapp
           image: flyahead/gokul-usermgmt-webapp:1.2.0
-          command: [ "/bin/sh", "-c", "cat /etc/secret-volume/*" ]
           imagePullPolicy: Always
           ports: 
             - containerPort: 8080           
@@ -41,15 +40,7 @@ spec:
             - name: DB_USERNAME
               value: "root"            
             - name: DB_PASSWORD
-              # valueFrom: 
-              #   secretKeyRef:
-              #     name: api-key
-              #     key: db-password
-          volumeMounts:
-            - name: mysql-persistent-storage
-              mountPath: /usr/local/tomcat/webapps
-              readOnly: true # Refer Initializing a fresh instance                                            
-      volumes: 
-        - name: mysql-persistent-storage
-          secret:
-            secretName: api-key
+              valueFrom: 
+                secretKeyRef:
+                  name: api-key
+                  key: db-password

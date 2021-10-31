@@ -44,3 +44,11 @@ spec:
                 secretKeyRef:
                   name: api-key
                   key: db-password
+          volumeMounts:
+          # name must match the volume name below
+          - name: api-key
+            mountPath: /etc/api-key
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: api-key

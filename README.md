@@ -28,7 +28,7 @@
 5. You must document any steps that are not automated in the README.md
   - Documented all steps that are automated and not automated in the README.md
 6. You must have dedicated service account for deployment
-  - Created dedicated service account for deployment
+  - Created dedicated service account(gitlab-runner)for deployment (you can check in https://gitlab.com/gokulakrishnag/gokul/-/blob/main/pre-requisites-serviceaccount-role-rolebinding.yml)
 7. You must have NodePort Type of service for application
   - Created NodePort Type of service for application (I have included NodePort in the code but I have used to LoadBalancer in my Demo)
 8. You must have Minimum 2 pods always up and running
@@ -71,9 +71,7 @@
 ```
 # Pre-requisites
 ```
-- Created AKS cluster using terraform script add in same repo and create service account or user account to login to cluster
-  - check in following url https://gitlab.com/gokulakrishnag/gokul/-/blob/terraform/README.md
-- GitLab Account
+- Created Gitlab runner VM in GCP
 - Installed following tools in Gitlab Runner
   - Trivy
   - Kubectl
@@ -81,6 +79,10 @@
   - Docker
   - Java
   - Maven
+  - Terraform
+- Created AKS cluster using terraform script from gitlab runner VM add in same repo (check it from following url https://gitlab.com/gokulakrishnag/gokul/-/tree/terraform )
+- Created service account gitlab-runner to login to cluster with its secret and token  (to check gitlabrunner service account YAML from following url https://gitlab.com/gokulakrishnag/gokul/-/blob/main/pre-requisites-serviceaccount-role-rolebinding.yml)
+- GitLab Account
 - Created Required Kubemanifest files and add in repo
 - Created Pipeline using .gitlab-ci.yml
   -stages:
@@ -103,11 +105,11 @@ stages:
 variables:
   GIT_STRATEGY: clone
 
-before_script:
+before_script: # to cross check the permission applied, so added same script (before script) in this stage
   - sudo chmod -R 777 /home/gitlab-runner/builds
   - sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/builds
 
-Dependencies:
+Dependencies: # to cross check added same before script in this stage
   stage: dependency
   script:
     - sudo chmod -R 777 /home/gitlab-runner/builds
@@ -362,7 +364,7 @@ spec:
 ```
 # Implementation Part
 
-## Pipeline
+## GitLab Pipeline
 ### Once the Pipeline is triggered:
 ```
 Stage 1 (Dependency): 

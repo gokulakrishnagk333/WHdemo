@@ -1,5 +1,5 @@
-# If you want to see AWS Option 4 Tasks Click the AWS Folder
-# Provision Azure AKS Cluster using Terraform
+# If you want to see AWS Option 4 Task, Click the AWS Folder
+# Option 1, Pre-requisites Infrastructure Azure AKS Cluster provision using Terraform
 
 ## Introduction
 - Create SSH Keys for AKS Linux VMs
@@ -278,6 +278,7 @@ kubectl get nodes
 ```
 
 ## Verified Resources using Azure Management Console
+```
 - Resource Group
   - aks-prod
   - aks-prod-nrg
@@ -287,9 +288,9 @@ kubectl get nodes
 - Log Analytics Workspace
 - Azure AD Group
   - aks-prod-cluster-administrators
-
+```
 ## Created a User in Azure AD and Associate User to AKS Admin Group in Azure AD
-
+```
 - Created a user in Azure Active Directory # "Flyahead Domain" is my test domain already added as custom primary domain in my azure accoiunt.
   - User Name: gokul@flyahead.org
   - Name: gokul
@@ -304,7 +305,7 @@ kubectl get nodes
   - Old Password: @AKSadmin11
   - New Password: @AKSadmin22
   - Confirm Password: @AKSadmin22
-
+```
 ## Access Terraform created AKS Cluster Manully
 ```
 # Installed azure cli in gitlabrunner

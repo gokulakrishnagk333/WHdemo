@@ -1,4 +1,4 @@
-# AWS Network Load Balancer TCP, TLS, Route 53 with Terraform
+# Option-4, AWS Network Load Balancer, AutoscalingGroup with 2 EC2 Instance, task created using Terraform, Additionlly i have addeed Route 53 and Bastion Host Configuration 
 ## The Task - Infrastructure as a code
 ### 1. Created 2 EC2 Instances under Auto-Scaling-Group
 ```

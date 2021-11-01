@@ -1,16 +1,16 @@
 # Understood the given requirement and completed the tasks
 ```
-- Based on my understanding with available resource I have created deployment using my java based application with Mysql DB. 
+- Based on my understanding and my available resource, I have created deployment using my java based application with Mysql DB in Azure AKS Cluster using Gitlab Pipeline. 
 - Please read entire read.me file
 ```
 ## Repo created in github / gitlab and solved below Option 1 problem
 ```
 1. Create a kubernetes deployment, svc, hpa, pdb service account in kubernetes cluster. can be PaaS/Minikube
- - Created a kubernetes Java Application with Mysql DB deployment, svc, hpa, pdb service account in AKS kubernetes cluster
+ - Created a kubernetes Java Application with Mysql DB deployment, in AKS kubernetes cluster
 2. Deployment needs a secret with name API-KEY
  - Both Mysql and Usermanagement WebApp deployments need a secret with name API-KEY
 3. Mount this secret in deployment
- - Not Mounted this API-Key secret in PV.
+ - Not Mounted this API-KEY secret in PV.
  - Mounted mysql_usermgmt.sql file as Config-Map(usermanagement-dbcreation-script) in PV
 4. API_KEY should be a environment variables within the container when container starts inside a pod
  - API-KEY is refered as mysqldbpassword in Mysql environment variables within the container when container starts inside a pod 

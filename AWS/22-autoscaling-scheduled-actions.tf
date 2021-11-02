@@ -12,7 +12,7 @@ resource "aws_autoscaling_schedule" "increase_capacity_8am" {
 ### Create Scheduled Action-2: Decrease capacity during business hours
 resource "aws_autoscaling_schedule" "decrease_capacity_6pm" {
   scheduled_action_name  = "decrease-capacity-6pm"
-  min_size               = 2
+  min_size               = 0
   max_size               = 4
   desired_capacity       = 0
   start_time             = "2030-03-30T16:00:00Z" # Time should be provided in UTC Timezone (4PM UTC = 6PM CET)

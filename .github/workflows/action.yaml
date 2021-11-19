@@ -1,0 +1,9 @@
+name: Must run on Custum Runner
+
+on: push
+
+jobs:
+  init:
+    runs-on: self-hosted
+    steps:
+      - run: echo 'hello world'

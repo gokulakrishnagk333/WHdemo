@@ -1,4 +1,3 @@
-```
 ## Repo created in github / gitlab and solved below Option 1 problem
 ```
 1. Create a kubernetes deployment, svc, hpa, pdb service account in kubernetes cluster. can be PaaS/Minikube

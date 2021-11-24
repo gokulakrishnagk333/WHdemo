@@ -1,7 +1,3 @@
-# Understood the given requirement and completed the tasks
-```
-- Based on my understanding and my available resource, I have created deployment using my java based application with Mysql DB in Azure AKS Cluster using Gitlab Pipeline. 
-- Please read entire read.me file
 ```
 ## Repo created in github / gitlab and solved below Option 1 problem
 ```
